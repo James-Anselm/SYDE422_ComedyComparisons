@@ -43,6 +43,9 @@ function findFunnyWordsInString(string) {
 }
 
 function printYoutubeData() {
+  // Stores the complete data that we're going to save.
+  var completeDataString = '';
+
   for (var data in youData) {
     if (youData[data].items[0] != undefined) {
       var id = youData[data].items[0].id;
@@ -52,16 +55,22 @@ function printYoutubeData() {
       var funnyWordsInDesc =
         findFunnyWordsInString(youData[data].items[0].snippet.description);
 
-      document.write(id + ',' +
-                     statistics.commentCount + ',' +
-                     statistics.dislikeCount + ',' +
-                     statistics.favoriteCount + ',' +
-                     statistics.likeCount + ',' +
-                     statistics.viewCount + ',' +
-                     funnyWordsInTitle + ',' +
-                     funnyWordsInDesc + '<br>');
+      var dataString = id + ',' +
+                       statistics.commentCount + ',' +
+                       statistics.dislikeCount + ',' +
+                       statistics.favoriteCount + ',' +
+                       statistics.likeCount + ',' +
+                       statistics.viewCount + ',' +
+                       funnyWordsInTitle + ',' +
+                       funnyWordsInDesc + '\n';
+
+      completeDataString += dataString;
+
+      document.write(dataString.replace('\n', '<br>'));
     }
   }
+
+  window.open('data:text/csv;charset=utf-8,' + escape(completeDataString));
 }
 
 var youData = new Array();
