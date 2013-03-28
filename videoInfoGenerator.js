@@ -71,7 +71,7 @@ function printYoutubeData() {
     }
   }
 
-  window.open('data:text/csv;charset=utf-8,' + escape(completeDataString));
+  window.open('data:text/dat;charset=utf-8,' + escape(completeDataString));
 }
 
 var youData = new Array();
