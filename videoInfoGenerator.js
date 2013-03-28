@@ -31,7 +31,8 @@ var funnyWords = [
   'fart',
   'cabbage',
   'booby',
-  'buttscratcher'
+  'buttscratcher',
+  'ninja'
 ];
 
 function findFunnyWordsInString(string) {
@@ -42,12 +43,13 @@ function findFunnyWordsInString(string) {
 }
 
 function printYoutubeData() {
-  document.body.innerHTML = '';
   for (var data in youData) {
     if (youData[data].items[0] != undefined) {
       var id = youData[data].items[0].id;
       var statistics = youData[data].items[0].statistics;
-      var funnyWords =
+      var funnyWordsInTitle =
+        findFunnyWordsInString(youData[data].items[0].snippet.title);
+      var funnyWordsInDesc =
         findFunnyWordsInString(youData[data].items[0].snippet.description);
 
       document.write(id + ',' +
@@ -56,16 +58,13 @@ function printYoutubeData() {
                      statistics.favoriteCount + ',' +
                      statistics.likeCount + ',' +
                      statistics.viewCount + ',' +
-                     funnyWords + '<br>');
+                     funnyWordsInTitle + ',' +
+                     funnyWordsInDesc + '<br>');
     }
   }
 }
 
-
 var youData = new Array();
-
-//var url = "https://www.googleapis.com/youtube/v3/videos?id=7lCDEYXw3mM&key=AIzaSyB5D-SzrHae0MBPJl65RLZ2pyXDG6am_8A%20&part=snippet,contentDetails,statistics,status";
-
 
 var url_1 = "https://www.googleapis.com/youtube/v3/videos?id=";
 var url_2 = "&key=AIzaSyB5D-SzrHae0MBPJl65RLZ2pyXDG6am_8A%20&part=snippet,contentDetails,statistics,status";
@@ -82,30 +81,19 @@ function getYoutubeData() {
     url = url_1 + ids[i] + url_2;
     $.getJSON(url,
       function(response){
-          //title = response.data.items[0].title;
-          //description = response.data.items[0].description;
         youData.push(response);
-        // $("#response").text(recMap(response));
 
         document.body.innerHTML = '';
-        document.write("Loading... " + completeCount + "/" + queryCount);
 
         if (++completeCount == queryCount) {
           printYoutubeData();
+        } else {
+          document.write("Loading... " + completeCount + "/" + queryCount + "<br>");
         }
       }
    );
   }
 }
-
-
-/*$.getJSON(url,
-    function(response){
-        //title = response.data.items[0].title;
-        //description = response.data.items[0].description;
-        youData.push(response);
-        $("#response").text(recMap(response));
-});*/
 
 var recMap = function(obj) {
     return $.map(obj, function(val, ind) { 
