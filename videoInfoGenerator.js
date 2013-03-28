@@ -13,6 +13,54 @@ txtFile.onreadystatechange = function()
 }
 txtFile.send(null);
 
+var funnyWords = [
+  'funny',
+  'lol',
+  'views',
+  'likes',
+  'cat',
+  'kitten',
+  'dog',
+  'puppy',
+  'booger',
+  'baboon',
+  'sombrero',
+  'hamster',
+  'gerbil',
+  'toilet',
+  'fart',
+  'cabbage',
+  'booby',
+  'buttscratcher'
+];
+
+function findFunnyWordsInString(string) {
+  var funnyWordsConcat = funnyWords.join('|');
+  var regex = new RegExp(funnyWordsConcat, "gi");
+  var match = string.match(regex);
+  return match ? match.length : 0;
+}
+
+function printYoutubeData() {
+  document.body.innerHTML = '';
+  for (var data in youData) {
+    if (youData[data].items[0] != undefined) {
+      var id = youData[data].items[0].id;
+      var statistics = youData[data].items[0].statistics;
+      var funnyWords =
+        findFunnyWordsInString(youData[data].items[0].snippet.description);
+
+      document.write(id + ',' +
+                     statistics.commentCount + ',' +
+                     statistics.dislikeCount + ',' +
+                     statistics.favoriteCount + ',' +
+                     statistics.likeCount + ',' +
+                     statistics.viewCount + ',' +
+                     funnyWords + '<br>');
+    }
+  }
+}
+
 
 var youData = new Array();
 
@@ -24,15 +72,27 @@ var url_2 = "&key=AIzaSyB5D-SzrHae0MBPJl65RLZ2pyXDG6am_8A%20&part=snippet,conten
 
 var url;
 
+var startId = 20000;
+var endId = 21000;
+var queryCount = endId - startId;
+var completeCount = 0;
+
 function getYoutubeData() {
-  for(var i=20000; i<21000; i++){
+  for(var i=startId; i<endId; i++){
     url = url_1 + ids[i] + url_2;
     $.getJSON(url,
       function(response){
           //title = response.data.items[0].title;
           //description = response.data.items[0].description;
-         youData.push(response);
+        youData.push(response);
         // $("#response").text(recMap(response));
+
+        document.body.innerHTML = '';
+        document.write("Loading... " + completeCount + "/" + queryCount);
+
+        if (++completeCount == queryCount) {
+          printYoutubeData();
+        }
       }
    );
   }
