@@ -56,7 +56,7 @@ function printYoutubeData() {
       var funnyWordsInDesc =
         findFunnyWordsInString(youData[data].items[0].snippet.description);
 
-      var dataString = '"' + id + '"' + delimiter +
+      var dataString = id + delimiter +
                        statistics.commentCount + delimiter +
                        statistics.dislikeCount + delimiter +
                        statistics.favoriteCount + delimiter +
