@@ -42,6 +42,7 @@ function findFunnyWordsInString(string) {
   return match ? match.length : 0;
 }
 
+var delimiter = ' ';
 function printYoutubeData() {
   // Stores the complete data that we're going to save.
   var completeDataString = '';
@@ -55,13 +56,13 @@ function printYoutubeData() {
       var funnyWordsInDesc =
         findFunnyWordsInString(youData[data].items[0].snippet.description);
 
-      var dataString = '"' + id + '"' + ',' +
-                       statistics.commentCount + ',' +
-                       statistics.dislikeCount + ',' +
-                       statistics.favoriteCount + ',' +
-                       statistics.likeCount + ',' +
-                       statistics.viewCount + ',' +
-                       funnyWordsInTitle + ',' +
+      var dataString = '"' + id + '"' + delimiter +
+                       statistics.commentCount + delimiter +
+                       statistics.dislikeCount + delimiter +
+                       statistics.favoriteCount + delimiter +
+                       statistics.likeCount + delimiter +
+                       statistics.viewCount + delimiter +
+                       funnyWordsInTitle + delimiter +
                        funnyWordsInDesc + '\n';
 
       completeDataString += dataString;
