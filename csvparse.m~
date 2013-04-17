@@ -1,0 +1,27 @@
+% Get data for each video.
+
+[id, commentCount, dislikeCount, favoriteCount, likeCount, viewCount, funnyWordsInTitle, funnyWordsInDesc] = textread('download.dat', '%s %d %d %d %d %d %d %d');
+inputs = [commentCount, dislikeCount, favoriteCount, likeCount, viewCount, funnyWordsInTitle, funnyWordsInDesc];
+
+% Convert data to a form that we can use in a map (a single cell containing
+% a matrix, for each id).
+
+length = size(inputs);
+values = cell(length(1), 1);
+for i = 1:size(values)
+    values(i) = {[inputs(i, 1), inputs(i, 2), inputs(i, 3), inputs(i, 4), inputs(i, 5), inputs(i, 6), inputs(i, 7)]};
+end
+
+videos = containers.Map(id, values);
+
+% Get comparison data.
+
+[left, right, winner] = textread('comedy_comparisons.train.space', '%s %s %s');
+
+% Convert comparison data into uniquely identifying data so we can compare
+% directly.
+
+finalInputData = zeros(size(left), 14);
+for i = 1:videos.length
+    
+end
