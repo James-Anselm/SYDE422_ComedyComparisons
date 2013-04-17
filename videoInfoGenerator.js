@@ -1,17 +1,48 @@
 var txtFile = new XMLHttpRequest();
 var ids;
-txtFile.open("GET", "comedy_comparisons_videos.txt", true);
-txtFile.onreadystatechange = function()
-{
-  if (txtFile.readyState === 4) {  // document is ready to parse.
-    if (txtFile.status === 200) {  // file is found
-      allText = txtFile.responseText; 
-      ids = txtFile.responseText.split("\n");
-      getYoutubeData();
+
+var startId = 20000;
+var endId = 21000;
+var queryCount = endId - startId;
+var completeCount = 0;
+
+$("#testInput").click(function() {
+  startId = 20000;
+  endId = 21000;
+  queryCount = endId - startId;
+
+  requestVideos();
+});
+
+$("#allInput").click(function() {
+  startId = 0;
+  endId = 21000;
+  queryCount = endId - startId;
+
+  requestVideos();
+})
+
+$("#rangeForm").submit(function() {
+  startId = $("#start").val();
+  endId = $("#end").val();
+  queryCount = endId - startId;
+
+  requestVideos();
+});
+
+function requestVideos() {
+  txtFile.open("GET", "comedy_comparisons_videos.txt", true);
+  txtFile.onreadystatechange = function() {
+    if (txtFile.readyState === 4) {  // document is ready to parse.
+      if (txtFile.status === 200) {  // file is found
+        allText = txtFile.responseText;
+        ids = txtFile.responseText.split("\n");
+        getYoutubeData();
+      }
     }
   }
+  txtFile.send(null);
 }
-txtFile.send(null);
 
 var funnyWords = [
   'funny',
@@ -80,11 +111,6 @@ var url_1 = "https://www.googleapis.com/youtube/v3/videos?id=";
 var url_2 = "&key=AIzaSyB5D-SzrHae0MBPJl65RLZ2pyXDG6am_8A%20&part=snippet,contentDetails,statistics,status";
 
 var url;
-
-var startId = 20000;
-var endId = 21000;
-var queryCount = endId - startId;
-var completeCount = 0;
 
 function getYoutubeData() {
   for(var i=startId; i<endId; i++){
