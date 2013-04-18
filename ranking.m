@@ -25,6 +25,7 @@ length = size(funnyInput);
 
 prunedFunnyInput = zeros(length(1), 14);
 prunedFunnyTarget = zeros(length(1), 2);
+prunedFunnyIds = cell(length(1), 1);
 prunedPos = 1;
 
 for i = 1:length(1)
@@ -33,9 +34,11 @@ for i = 1:length(1)
     else
         prunedFunnyInput(prunedPos,:) = funnyInput(i,:);
         prunedFunnyTarget(prunedPos,:) = funnyTarget(i,:);
+        prunedFunnyIds{prunedPos} = funnyIds{i};
         prunedPos = prunedPos + 1;
     end
 end
 
-prunedFunnyInput = funnyInput(1:(prunedPos - 1),:);
-prunedFunnyTarget = funnyTarget(1:(prunedPos - 1),:);
+prunedFunnyInput = prunedFunnyInput(1:(prunedPos - 1),:);
+prunedFunnyTarget = prunedFunnyTarget(1:(prunedPos - 1),:);
+prunedFunnyIds = prunedFunnyIds(1:(prunedPos - 1),:);
