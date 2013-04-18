@@ -15,9 +15,6 @@ for i = 1:size(values)
     values(i) = {[inputs(i, 1), inputs(i, 2), inputs(i, 3), inputs(i, 4), inputs(i, 5), inputs(i, 6), inputs(i, 7)]};
 end
 
-%values(end + 1) = {[5, 5, 5, 5, 5, 5, 5]};
-%id{end + 1} = 'sNabaB-eb3Y';
-
 videos = containers.Map(id, values);
 
 % Get comparison data.
@@ -28,15 +25,24 @@ videos = containers.Map(id, values);
 % directly.
 
 length = size(left);
-finalInputData = zeros(length(1), 14);
-for i = 1:videos.length
-    %if videos.isKey(left{i}) || videos.isKey(right{i})
-    %    disp('found!'); 
-    %end
-    
+funnyInput = zeros(length(1), 14);
+funnyTarget = zeros(length(1), 1);
+lastInsertion = 1;
+for i = 1:length(1)
     if videos.isKey(left{i}) && videos.isKey(right{i})
         leftData = videos(left{i});
         rightData = videos(right{i});
-        finalInputData(i) = [leftData(1)'; rightData(1)'];
+        funnyInput(lastInsertion,:) = [leftData, rightData];
+        
+        if strcmp(winner{i}, 'left') == 0
+            funnyTarget(lastInsertion) = 1;
+        else
+            funnyTarget(lastInsertion) = 2;
+        end
+        
+        lastInsertion = lastInsertion + 1;
     end
 end
+
+funnyInput = funnyInput(1:(lastInsertion - 1),:);
+funnyTarget = funnyTarget(1:(lastInsertion - 1),:);
