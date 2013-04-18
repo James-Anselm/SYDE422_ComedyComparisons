@@ -3,6 +3,7 @@ var ids;
 
 var startId = 20000;
 var endId = 21000;
+var currentId = 0;
 var queryCount = endId - startId;
 var completeCount = 0;
 
@@ -15,7 +16,7 @@ $("#testInput").click(function() {
 });
 
 $("#allInput").click(function() {
-  startId = 0;
+  startId = 10000;
   endId = 21000;
   queryCount = endId - startId;
 
@@ -37,7 +38,7 @@ function requestVideos() {
       if (txtFile.status === 200) {  // file is found
         allText = txtFile.responseText;
         ids = txtFile.responseText.split("\n");
-        getYoutubeData();
+        getYoutubeData(0);
       }
     }
   }
@@ -112,7 +113,7 @@ var url_2 = "&key=AIzaSyB5D-SzrHae0MBPJl65RLZ2pyXDG6am_8A%20&part=snippet,conten
 
 var url;
 
-function getYoutubeData() {
+/*function getYoutubeData() {
   for(var i=startId; i<endId; i++){
     url = url_1 + ids[i] + url_2;
     $.getJSON(url,
@@ -129,6 +130,30 @@ function getYoutubeData() {
       }
    );
   }
+}*/
+
+function getYoutubeData(completeCountStart) {
+  for(var i=0; i<1000; i++){
+    url = url_1 + ids[startId + completeCountStart + i] + url_2;
+    if(completeCountStart+i > queryCount) {
+      return;
+    }
+    $.getJSON(url,
+      function(response){
+        youData.push(response);
+
+        document.body.innerHTML = '';
+
+        if (++completeCount >= queryCount-1) {
+          printYoutubeData();
+          return;
+        } else {
+          document.write("Loading... " + completeCount + "/" + queryCount + "<br>");
+        }
+      }
+   );
+  }
+  setTimeout(function(){getYoutubeData(completeCountStart+1000);}, 5000);
 }
 
 var recMap = function(obj) {
