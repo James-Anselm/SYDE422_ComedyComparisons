@@ -21,14 +21,14 @@ end
 
 rankings = containers.Map(id, rankingValues);
 
+length = size(funnyInput);
+
 prunedFunnyInput = zeros(length(1), 14);
 prunedFunnyTarget = zeros(length(1), 2);
 prunedPos = 1;
 
-length = size(funnyInput);
-
 for i = 1:length(1)
-    if funnyTarget{i, 1} == 1 && rankings{funnyIds{i}{1}} < rankings{funnyIds{i}{2}}
+    if funnyTarget(i, 1) == 1 && rankings(funnyIds{i}{1}) < rankings(funnyIds{i}{2})
         
     else
         prunedFunnyInput(prunedPos,:) = funnyInput(i,:);
