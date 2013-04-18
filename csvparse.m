@@ -1,5 +1,5 @@
-clc;
-clear;
+%clc;
+%clear;
 
 % Get data for each video.
 
@@ -26,7 +26,8 @@ videos = containers.Map(id, values);
 
 length = size(left);
 funnyInput = zeros(length(1), 14);
-funnyTarget = zeros(length(1), 1);
+funnyTarget = zeros(length(1), 2);
+funnyIds = cell(length(1), 1);
 lastInsertion = 1;
 for i = 1:length(1)
     if videos.isKey(left{i}) && videos.isKey(right{i})
@@ -35,10 +36,12 @@ for i = 1:length(1)
         funnyInput(lastInsertion,:) = [leftData, rightData];
         
         if strcmp(winner{i}, 'left') == 0
-            funnyTarget(lastInsertion) = 1;
+            funnyTarget(lastInsertion, 1) = 1;
         else
-            funnyTarget(lastInsertion) = 2;
+            funnyTarget(lastInsertion, 2) = 1;
         end
+        
+        funnyIds{lastInsertion} = {left{i}, right{i}};
         
         lastInsertion = lastInsertion + 1;
     end
@@ -46,3 +49,4 @@ end
 
 funnyInput = funnyInput(1:(lastInsertion - 1),:);
 funnyTarget = funnyTarget(1:(lastInsertion - 1),:);
+funnyIds = funnyIds(1:(lastInsertion - 1),:);

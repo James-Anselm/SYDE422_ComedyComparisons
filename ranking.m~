@@ -1,0 +1,34 @@
+length = size(inputs);
+
+highestCommentCount = max(funnyInput(:,1));
+highestDislikeCount = max(funnyInput(:,2));
+highestFavoriteCount = max(funnyInput(:,3));
+highestLikeCount = max(funnyInput(:,4));
+highestViewCount = max(funnyInput(:,5));
+highestFunnyWordsInTitle = max(funnyInput(:,6));
+highestFunnyWordsInDesc = max(funnyInput(:,7));
+
+rankingIds = cell(length(1), 1);
+rankingValues = cell(length(1), 1);
+
+for i = 1:length(1)
+    rankingIds{i} = id(i);
+    rankingValues{i} = input(i, 1) / highestCommentCount - ...
+                       3 * input(i, 2) / highestDislikeCount + ...
+                       3 * input(i, 4) / highestLikeCount + ...
+                       input(i, 5) / highestViewCount + ...
+                       2 * input(i, 6) / highestFunnyWordsInTitle + ...
+                       input(i, 7) / highestFunnyWordsInDesc;
+end
+
+ranking = containers.Map(rankingIds, rankingValues);
+
+length = size(funnyInputs);
+
+for i = 1:length(1)
+    if funnyranking{funnyIds{i, 1}} 
+end
+
+    
+prunedFunnyInput = zeros(length(1), 14);
+prunedFunnyTarget = zeros(length(1), 2);

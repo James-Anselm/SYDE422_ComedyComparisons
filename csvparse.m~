@@ -1,5 +1,5 @@
-clc;
-clear;
+%clc;
+%clear;
 
 % Get data for each video.
 
@@ -15,9 +15,6 @@ for i = 1:size(values)
     values(i) = {[inputs(i, 1), inputs(i, 2), inputs(i, 3), inputs(i, 4), inputs(i, 5), inputs(i, 6), inputs(i, 7)]};
 end
 
-%values(end + 1) = {[5, 5, 5, 5, 5, 5, 5]};
-%id{end + 1} = 'sNabaB-eb3Y';
-
 videos = containers.Map(id, values);
 
 % Get comparison data.
@@ -29,15 +26,26 @@ videos = containers.Map(id, values);
 
 length = size(left);
 funnyInput = zeros(length(1), 14);
-funnyTarget = zeros(length(1), 
+funnyTarget = zeros(length(1), 2);
+funnyIds = zeros(length(1), 2);
+lastInsertion = 1;
 for i = 1:length(1)
-    %if videos.isKey(left{i}) || videos.isKey(right{i})
-    %    disp('found!'); 
-    %end
-    
     if videos.isKey(left{i}) && videos.isKey(right{i})
         leftData = videos(left{i});
         rightData = videos(right{i});
-        finalInputData(i,:) = [leftData, rightData];
+        funnyInput(lastInsertion,:) = [leftData, rightData];
+        
+        if strcmp(winner{i}, 'left') == 0
+            funnyTarget(lastInsertion, 1) = 1;
+        else
+            funnyTarget(lastInsertion, 2) = 1;
+        end
+        
+        funnyIds(lastInsertion, 1) = 
+        
+        lastInsertion = lastInsertion + 1;
     end
 end
+
+funnyInput = funnyInput(1:(lastInsertion - 1),:);
+funnyTarget = funnyTarget(1:(lastInsertion - 1),:);
